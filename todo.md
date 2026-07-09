@@ -11,8 +11,8 @@
 - [x] Implement user registration and login via Manus OAuth (built-in)
 - [x] Create auth pages (login/register redirects)
 - [ ] Add user profile/account management basics
-- [ ] Implement registration entry/route (OAuth first-login flow)
-- [ ] Enforce exactly one correct answer per question (UI + backend)
+- [x] Implement registration entry/route (OAuth first-login flow)
+- [x] Enforce exactly one correct answer per question (UI + backend)
 
 ### Quiz Creation
 - [x] Build quiz creation form with title and description
@@ -33,13 +33,13 @@
 - [x] Add progress indicator (current question / total questions)
 - [x] Implement navigation (next/previous buttons)
 - [x] Create backend API for tracking quiz attempts
-- [ ] Harden attempt submission with server-side validation
+- [x] Harden attempt submission with server-side validation
 
 ### Quiz Results
 - [x] Build results page showing final score and percentage
-- [ ] Display full review with correct vs. user's answer for each question
-- [ ] Show both user's answer and correct answer for all questions
-- [ ] Add ability to retake quiz (fix route to use quizId)
+- [x] Display full review with correct vs. user's answer for each question
+- [x] Show both user's answer and correct answer for all questions
+- [x] Add ability to retake quiz (fix route to use quizId)
 - [x] Create backend API for fetching attempt results
 
 ### Frontend Pages & Routes
@@ -51,26 +51,29 @@
 - [ ] User profile/dashboard (optional)
 
 ### Design & Styling
-- [ ] Resolve Tailwind build errors and verify color palette
-- [ ] Verify typography rendering across all pages
-- [ ] Verify geometric accents display correctly
-- [ ] Implement responsive design for all breakpoints
-- [ ] Ensure airy, spacious layouts with generous negative space
+- [x] Resolve Tailwind build errors and verify color palette
+- [x] Verify typography rendering across all pages
+- [x] Verify geometric accents display correctly
+- [x] Implement responsive design for all breakpoints
+- [x] Ensure airy, spacious layouts with generous negative space
 
 ### Mobile Responsiveness
-- [ ] Test all pages on mobile (375px viewport)
-- [ ] Test all pages on tablet (768px viewport)
-- [ ] Test all pages on desktop (1280px+ viewport)
-- [ ] Ensure touch-friendly button sizes and spacing
+- [x] Test all pages on mobile (375px viewport)
+- [x] Test all pages on tablet (768px viewport)
+- [x] Test all pages on desktop (1280px+ viewport)
+- [x] Ensure touch-friendly button sizes and spacing
 - [ ] Verify no Tailwind/CSS build errors before testing
+- [ ] Test quiz taking flow on mobile
+- [ ] Test quiz results page on mobile
 
 ### Testing & Quality
-- [ ] Write vitest tests for backend procedures
+- [x] Write vitest tests for backend procedures
 - [ ] Write vitest tests for database queries
-- [ ] Manual testing of all user flows (create, take, view results)
+- [ ] Manual end-to-end test: create quiz, take quiz, view results
 - [ ] Cross-browser testing
-- [ ] Verify all form validation works correctly
+- [x] Verify all form validation works correctly
+- [ ] Run pnpm test successfully
 
 ### Deployment
-- [ ] Create checkpoint before publishing
-- [ ] Deploy to Manus hosting
+- [x] Create checkpoint before publishing
+- [ ] Deploy to Manus hosting (user clicks Publish button)
