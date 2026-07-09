@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { eq, and, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, quizzes, questions, answers, quizAttempts, attemptAnswers } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,156 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+export async function getUserById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+// Quiz queries
+export async function createQuiz(creatorId: number, title: string, description: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(quizzes).values({
+    creatorId,
+    title,
+    description,
+  });
+
+  return result;
+}
+
+export async function getQuizById(quizId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db.select().from(quizzes).where(eq(quizzes.id, quizId)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getAllQuizzes() {
+  const db = await getDb();
+  if (!db) return [];
+
+  const result = await db.select().from(quizzes).orderBy(desc(quizzes.createdAt));
+  return result;
+}
+
+export async function getQuizzesByCreator(creatorId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const result = await db.select().from(quizzes).where(eq(quizzes.creatorId, creatorId)).orderBy(desc(quizzes.createdAt));
+  return result;
+}
+
+// Question queries
+export async function createQuestion(quizId: number, text: string, order: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(questions).values({
+    quizId,
+    text,
+    order,
+  });
+
+  return result;
+}
+
+export async function getQuestionsByQuizId(quizId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const result = await db.select().from(questions).where(eq(questions.quizId, quizId));
+  return result;
+}
+
+// Answer queries
+export async function createAnswer(questionId: number, text: string, isCorrect: boolean, order: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(answers).values({
+    questionId,
+    text,
+    isCorrect,
+    order,
+  });
+
+  return result;
+}
+
+export async function getAnswersByQuestionId(questionId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const result = await db.select().from(answers).where(eq(answers.questionId, questionId));
+  return result;
+}
+
+// Quiz attempt queries
+export async function createQuizAttempt(userId: number, quizId: number, score: number, totalQuestions: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(quizAttempts).values({
+    userId,
+    quizId,
+    score,
+    totalQuestions,
+  });
+
+  return result;
+}
+
+export async function getAttemptById(attemptId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db.select().from(quizAttempts).where(eq(quizAttempts.id, attemptId)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getAttemptsByUserId(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const result = await db.select().from(quizAttempts).where(eq(quizAttempts.userId, userId)).orderBy(desc(quizAttempts.completedAt));
+  return result;
+}
+
+export async function getAttemptsByQuizId(quizId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const result = await db.select().from(quizAttempts).where(eq(quizAttempts.quizId, quizId));
+  return result;
+}
+
+// Attempt answer queries
+export async function createAttemptAnswer(attemptId: number, questionId: number, selectedAnswerId: number | null, correctAnswerId: number, isCorrect: boolean) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(attemptAnswers).values({
+    attemptId,
+    questionId,
+    selectedAnswerId,
+    correctAnswerId,
+    isCorrect,
+  });
+
+  return result;
+}
+
+export async function getAttemptAnswersByAttemptId(attemptId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const result = await db.select().from(attemptAnswers).where(eq(attemptAnswers.attemptId, attemptId));
+  return result;
+}
